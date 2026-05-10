@@ -1,0 +1,33 @@
+{% extends 'posts/base.html' %}
+
+{% block content %}
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="card-title">{{ post.title }}</h2>
+        <p class="text-muted">Автор: {{ post.author.username }} | Опубликовано: {{ post.created_at|date:"d.m.Y H:i" }}</p>
+        <p class="text-muted">Лайков: {{ post.total_likes }} | Просмотров: {{ post.views.count }}</p>
+        <p class="card-text">{{ post.content }}</p>
+        <a href="{% url 'posts:add_like' post.id %}" class="btn btn-danger">❤️ Поставить лайк</a>
+        <a href="{% url 'posts:post_list' %}" class="btn btn-secondary">Главное меню</a>
+    </div>
+</div>
+
+<h4>Комментарии</h4>
+<div class="mb-4">
+    <form method="post" action="{% url 'posts:add_comment' post.id %}">
+        {% csrf_token %}
+        <textarea name="text" class="form-control mb-2" rows="4" placeholder="Введите комментарий"></textarea>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+</div>
+
+{% if post.comments.all %}
+    <ul class="list-group">
+    {% for comment in post.comments.all %}
+        <li class="list-group-item"><strong>{{ comment.author.username }}</strong>: {{ comment.text }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Комментариев пока нет.</p>
+{% endif %}
+{% endblock %}
