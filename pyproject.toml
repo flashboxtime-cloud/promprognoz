@@ -1,0 +1,12 @@
+[tool.django-stubs]
+django_settings_module = "promprognoz.settings"
+
+[tool.pylint.MASTER]
+load-plugins = "pylint_django"
+
+[tool.pyright]
+pythonVersion = "3.12"
+plugins = ["pylance.typeshed"]
+
+[tool.pylance]
+typeCheckingMode = "basic"
